@@ -1,0 +1,8 @@
+{
+    "token": "在此填入从抓包获取的 x-auth-token",
+    "task_id_sign": "654165b1z56x1bq",
+    "task_id_bill": "a654g56s5151b51a16b",
+    "referer": "https://0000000000000141.95598.csg.cn/0000000000000141/1.0.3.1/index.html#/pages/task/index",
+    "referer_bill": "https://0000000000000123.95598.csg.cn/0000000000000123/1.0.51.0/index.html#pages/list-bills/index",
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/21F90 Ariver/1.0.15 NWZX/Portal Nebula WK WK RVKType(0) NebulaX/1.0.0"
+}

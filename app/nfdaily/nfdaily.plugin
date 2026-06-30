@@ -1,0 +1,11 @@
+name = 南网在线签到
+description = 南方电网「南网在线」App 每日签到 + 查看电费账单任务(50积分/月)
+repo = YOUR_GITHUB_USER/paperclip
+
+[MITM]
+hostname = 95598.csg.cn
+
+[Script]
+http-request ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ script-path=https://raw.githubusercontent.com/YOUR_GITHUB_USER/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线 Cookie, requires-body=true, img-url=
+
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/YOUR_GITHUB_USER/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enable=true
