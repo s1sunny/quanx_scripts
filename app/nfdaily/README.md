@@ -1,8 +1,13 @@
 # 南网在线
 南方电网「南网在线」(95598.csg.cn)App 积分每日签到 + 查看电费账单任务(50积分/月)。
 
+**仓库**: https://github.com/s1sunny/quanx_scripts/tree/main/app/nfdaily
+
 ## 文件
 - `nfdaily.js` — 单文件脚本（rewrite 抓取 token + cron 自动签到，二合一）
+- `nfdaily.plugin` — Loon 插件配置
+- `csg_sign.py` — Python 版（环境变量 + 配置文件）
+- `csg_config.example.json` — Python 版配置模板
 
 ## 使用步骤
 1. 按下方对应平台配置，开启重写脚本 + cron；需先开启 MITM 并安装信任 CA 证书
@@ -15,8 +20,8 @@
 [MITM]
 hostname = 95598.csg.cn
 [Script]
-http-request ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ tag=南网在线 Cookie, script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, requires-body=true, img-url=
-cron "30 8 * * *" script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enable=true
+http-request ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ tag=南网在线 Cookie, script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, requires-body=true, img-url=
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enable=true
 ```
 
 ## Surge
@@ -24,8 +29,8 @@ cron "30 8 * * *" script-path=https://raw.githubusercontent.com/你的用户名/
 [MITM]
 hostname = 95598.csg.cn
 [Script]
-南网在线 = type=http-request,pattern=^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
-南网在线签到 = type=cron,cronexp=30 8 * * *,timeout=60,script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
+南网在线 = type=http-request,pattern=^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
+南网在线签到 = type=cron,cronexp=30 8 * * *,timeout=60,script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
 ```
 
 ## Quantumult X
@@ -33,9 +38,9 @@ hostname = 95598.csg.cn
 [MITM]
 hostname = 95598.csg.cn
 [rewrite_local]
-^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ url script-request-body https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js
+^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ url script-request-body https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js
 [task_local]
-30 8 * * * https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enabled=true
+30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enabled=true
 ```
 
 ## Stash
@@ -55,16 +60,22 @@ http:
       require-body: true
 script-providers:
   南网在线签到:
-    url: https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js
+    url: https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js
     interval: 86400
 ```
 
 ## 青龙面板 / Node.js 手动模式
-如使用青龙面板或 Node.js 环境（无 MITM 抓取），直接设置环境变量运行：
 ```bash
-export NFDAILY_TOKEN=你的x-auth-token"
+export NFDAILY_TOKEN=你的x-auth-token
 node nfdaily.js
 ```
+
+或 Python 版：
+```bash
+export NFDAILY_TOKEN=你的x-auth-token
+python3 csg_sign.py
+```
+也可复制 `csg_config.example.json` 为 `csg_config.json` 填入 token 后直接运行。
 
 ## 实现细节
 - **鉴权** = `x-auth-token`，由 rewrite 模式自动抓取存本地

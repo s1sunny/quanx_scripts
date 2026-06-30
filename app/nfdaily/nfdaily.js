@@ -11,21 +11,21 @@
  * [MITM]
  * hostname = 95598.csg.cn
  * [Script]
- * http-request ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ tag=南网在线 Cookie, script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, requires-body=true, img-url=
- * cron "30 8 * * *" script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enable=true
+ * http-request ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ tag=南网在线 Cookie, script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, requires-body=true, img-url=
+ * cron "30 8 * * *" script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enable=true
  * ===== Surge =====
  * [MITM]
  * hostname = 95598.csg.cn
  * [Script]
- * 南网在线 = type=http-request,pattern=^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
- * 南网在线签到 = type=cron,cronexp=30 8 * * *,timeout=60,script-path=https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
+ * 南网在线 = type=http-request,pattern=^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/,requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
+ * 南网在线签到 = type=cron,cronexp=30 8 * * *,timeout=60,script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js,img-url=
  * ===== Quantumult X =====
  * [MITM]
  * hostname = 95598.csg.cn
  * [rewrite_local]
- * ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ url script-request-body https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js
+ * ^https:\/\/95598\.csg\.cn\/mp\/w2\/szfw-points-txhsj\/ url script-request-body https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js
  * [task_local]
- * 30 8 * * * https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enabled=true
+ * 30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=, enabled=true
  * ===== Stash =====
  * cron:
  *   script:
@@ -41,7 +41,7 @@
  *       require-body: true
  * script-providers:
  *   南网在线签到:
- *     url: https://raw.githubusercontent.com/你的用户名/paperclip/refs/heads/main/app/nfdaily/nfdaily.js
+ *     url: https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js
  *     interval: 86400
  */
 
