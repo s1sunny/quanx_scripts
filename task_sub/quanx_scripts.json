@@ -9,6 +9,14 @@
     {
       "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png, enabled=true",
       "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/nfdaily.conf, tag=南网在线-重定向"
+    },
+    {
+      "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/gwm/gwm.js, tag=长城汽车 每日签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/gwm.png, enabled=true",
+      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/gwm.conf, tag=长城汽车-重定向"
+    },
+    {
+      "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js, tag=合胜百货签到, img-url=https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png, enabled=true",
+      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/hesheng.conf, tag=合胜百货-重定向"
     }
   ]
 }
