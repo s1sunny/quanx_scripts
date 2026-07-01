@@ -3,7 +3,7 @@
   "description": "自用 Quantumult X 脚本订阅，含签到、重写规则等",
   "task": [
     {
-      "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png, enabled=true",
+      "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png, enabled=true",
       "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/nfdaily.conf, tag=南网在线-重定向"
     }
   ]
