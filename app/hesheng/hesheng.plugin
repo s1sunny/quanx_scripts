@@ -1,16 +1,15 @@
 #!name=合胜百货签到
-#!desc=合胜集团微会员每日签到（10积分/天，连续30天额外300积分）
+#!desc=合胜集团微会员每日签到（10积分/天，连续30天额外300积分）| 含MD5签名
 #!system=ios
 #!author=User
 #!homepage=https://github.com/s1sunny/quanx_scripts
 #!icon=https://raw.githubusercontent.com/s1sunny/quanx_scripts/main/app/hesheng/icon.png
 #!date=2026-07-01
-#!version=2026.07.01.r1
-#!argument=
+#!version=2026.07.01.r2
 
 [MITM]
 hostname = 120.78.175.218
 
 [Script]
-http-response ^https:\\/\\/120\\.78\\.175\\.218\\/EnjoyMobile_Core\\/Enjoy\\/Service requires-body=true, script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js, tag=合胜百货 Cookie, img-url=
+http-request ^https:\\/\\/120\\.78\\.175\\.218\\/EnjoyMobile_Core\\/Enjoy\\/Service script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js, tag=合胜百货 Cookie, requires-body=true, img-url=
 cron "30 8 * * *" script-path=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js, tag=合胜百货签到, img-url=, enable=true

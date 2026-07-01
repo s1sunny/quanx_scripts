@@ -17,6 +17,7 @@ Python 版 (支持 Qinglong 青龙、Node 环境、手动运行)
   python3 hesheng_sign.py --session "d2b47720-..." --userno "50337890"
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -24,14 +25,16 @@ import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timedelta
+from urllib.parse import quote
 
 # === 常量 ===
-BASE_URL = "https://120.78.175.218/EnjoyMobile_Core/Enjoy/Service"
+BASE_URL = "https://www.sthsbh.com/EnjoyMobile_Core/Enjoy/Service"
 UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.75(0x18004b2f) NetType/WIFI Language/zh_CN"
 REFERER = "https://servicewechat.com/wxa664cde255dca09c/34/page-frame.html"
 APPID = "wxa664cde255dca09c"
 VERSION = "V5.25.05.25"
 CHANNEL = "会员(微信小程序)"
+SIGN_KEY = "66DC5DF67634474DBCEA76202F778977"
 
 # === 默认配置 ===
 DEFAULT_CONFIG = {
@@ -101,15 +104,23 @@ def api_post(method_name, unique_key, object_data, session, user_no=""):
         "business": ""
     }
 
-    data = json.dumps(body, ensure_ascii=False).encode("utf-8")
+    data = json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+
+    # 计算 sign: MD5(JSON(body) + "&sk=" + MD5(SIGN_KEY))
+    sk = hashlib.md5(SIGN_KEY.encode()).hexdigest().upper()
+    sign = hashlib.md5(json.dumps(body, ensure_ascii=False, separators=(",", ":")).encode() + f"&sk={sk}".encode()).hexdigest().upper()
+
     req = urllib.request.Request(BASE_URL, data=data, method="POST")
     req.add_header("Content-Type", "application/json;charset=utf-8")
+    req.add_header("Host", "www.sthsbh.com")
     req.add_header("session", session)
+    req.add_header("appId", APPID)
+    req.add_header("storeId", "11101")
+    req.add_header("sign", sign)
+    req.add_header("appType", quote(CHANNEL, safe=""))
+    req.add_header("business", "")
     req.add_header("Referer", REFERER)
     req.add_header("User-Agent", UA)
-    req.add_header("Accept", "*/*")
-    req.add_header("Accept-Language", "zh-CN,zh-Hans;q=0.9")
-    req.add_header("Connection", "keep-alive")
 
     print(f"  → {method_name}...", end=" ", flush=True)
     try:
