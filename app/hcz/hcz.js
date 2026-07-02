@@ -120,12 +120,7 @@ async function main() {
 
     console.log(`[HCZ] 捕获: bo7=${bo7 ? '✓' : '✗'} sparta=${sparta ? '✓' : '✗'} equip=${equip ? '✓' : '✗'}`);
 
-    // 无论是否含bo7，先通知用户脚本已触发
-    if (!bo7 || !sparta) {
-      console.log(`[HCZ] 请求未含签到凭证，路径: ${new URL(url).pathname}`);
-      $done({});
-      return;
-    }
+    // 捕获到凭证后立即尝试签到
     if (bo7 && sparta) {
       const result = await signIn(bo7, sparta, cookie);
       if (result && result.code === 0) {
