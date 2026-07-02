@@ -24,7 +24,7 @@
     },
     {
       "config": "0 9 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hcz/hcz.js, tag=平安好车主签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/hcz.png, enabled=true",
-      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hcz/hcz.conf, tag=平安好车主-重定向"
+      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/hcz.conf, tag=平安好车主-重定向"
     }
   ]
 }
