@@ -1,6 +1,6 @@
-# 美的会员 · 每日签到
+# 美的Midea · 每日签到
 
-微信小程序「美的会员」每日签到脚本
+微信小程序「美的Midea」每日签到脚本
 
 ## 项目状态
 
@@ -55,7 +55,7 @@ export midea_data="sukey=xxx; uid=xxx; uin=xxx; ucAccessToken=xxx; ucAccessToken
 node midea.js
 ```
 
-Cookie 获取方式：打开微信小程序「美的会员」→ 自动捕获。
+Cookie 获取方式：打开微信小程序「美的Midea」→ 自动捕获。
 
 ## 依赖
 

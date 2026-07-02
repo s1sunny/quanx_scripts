@@ -3,8 +3,8 @@
   "description": "自用 Quantumult X 脚本订阅，含签到、重写规则等",
   "task": [
     {
-      "config": "1 9 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/midea/midea.js, tag=美的会员签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png, enabled=true",
-      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/midea.conf, tag=美的会员-重定向"
+      "config": "1 9 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/midea/midea.js, tag=美的Midea签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png, enabled=true",
+      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/midea.conf, tag=美的Midea-重定向"
     },
     {
       "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js, tag=南网在线签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png, enabled=true",

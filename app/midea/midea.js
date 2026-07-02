@@ -1,5 +1,5 @@
 /**
- * 美的会员 每日签到（新版 API：mcsp-api.midea.com）
+ * 美的Midea 每日签到（新版 API：mcsp-api.midea.com）
  * 认证方式: ucAccessToken（头部 Token）
  * 签到接口: POST /im/game/page/sign（活动中心打卡签到）
  * @兼容: Quantumult X / Surge / Loon / Node.js
@@ -16,7 +16,7 @@
  *   https:\/\/mcsp\.midea\.com\/api\/cms_bff\/mcsp-uc-mvip-bff\/app\/login\/wx\/mini\/getLoginInfo\.do url script-response-body midea.js
  */
 
-const $ = new Env("美的会员");
+const $ = new Env("美的Midea");
 if (typeof $done !== "undefined") $.done = $done;
 
 // ===== 固定凭证（小程序内置，非用户敏感信息） =====
@@ -105,7 +105,7 @@ async function getUserInfo() {
 
 // ===== 主流程 =====
 async function main() {
-    console.log("\n========== 美的会员 签到 ==========\n");
+    console.log("\n========== 美的Midea 签到 ==========\n");
 
     var token = $.isNode() ? process.env.midea_token : $.getdata(CK_NAME);
     if (!token) {
