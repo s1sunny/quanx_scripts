@@ -1,0 +1,124 @@
+{
+  "id": "s1sunny.quanx_scripts",
+  "name": "quanx_scripts",
+  "author": "@s1sunny",
+  "icon": "https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png",
+  "repo": "https://github.com/s1sunny/quanx_scripts",
+  "apps": [
+    {
+      "id": "quanx_scripts.nfdaily",
+      "name": "南网在线",
+      "keys": [
+        "nfdaily_data",
+        "nfdaily_clear"
+      ],
+      "settings": [
+        {
+          "id": "nfdaily_clear",
+          "name": "清除 Cookie",
+          "val": false,
+          "type": "boolean",
+          "desc": "设为开启后，运行一次签到脚本会清空已抓的 Token，完成后自动复位为关闭；之后重新抓取"
+        }
+      ],
+      "author": "@s1sunny",
+      "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/nfdaily",
+      "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js",
+      "icons": [
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png",
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png"
+      ]
+    },
+    {
+      "id": "quanx_scripts.gwm",
+      "name": "长城汽车",
+      "keys": [
+        "gwm_data",
+        "gwm_clear"
+      ],
+      "settings": [
+        {
+          "id": "gwm_clear",
+          "name": "清除 Cookie",
+          "val": false,
+          "type": "boolean",
+          "desc": "设为开启后，运行一次签到脚本会清空已抓的 Token，完成后自动复位为关闭；之后重新抓取"
+        }
+      ],
+      "author": "@s1sunny",
+      "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/gwm",
+      "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/gwm/gwm.js",
+      "icons": [
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/gwm.png",
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/gwm.png"
+      ]
+    },
+    {
+      "id": "quanx_scripts.hesheng",
+      "name": "合胜百货",
+      "keys": [
+        "hesheng_data",
+        "hesheng_clear"
+      ],
+      "settings": [
+        {
+          "id": "hesheng_clear",
+          "name": "清除 Cookie",
+          "val": false,
+          "type": "boolean",
+          "desc": "设为开启后，运行一次签到脚本会清空已抓的 Session，完成后自动复位为关闭；之后重新抓取"
+        }
+      ],
+      "author": "@s1sunny",
+      "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/hesheng",
+      "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js",
+      "icons": [
+        "https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png",
+        "https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png"
+      ]
+    },
+    {
+      "id": "quanx_scripts.midea",
+      "name": "美的会员",
+      "keys": [
+        "midea_data",
+        "is_debug",
+        "bark_key"
+      ],
+      "settings": [
+        {
+          "id": "is_debug",
+          "name": "调试模式",
+          "val": "false",
+          "type": "selects",
+          "items": [
+            {
+              "key": "false",
+              "label": "关闭"
+            },
+            {
+              "key": "true",
+              "label": "开启"
+            }
+          ],
+          "desc": "开启后会打印详细请求/响应日志"
+        },
+        {
+          "id": "bark_key",
+          "name": "Bark 推送 Key",
+          "val": "",
+          "type": "text",
+          "placeholder": "Bark 推送 Key",
+          "desc": "设置后签到结果会额外通过 Bark 推送通知；留空则仅在 Quantumult X 内通知"
+        }
+      ],
+      "author": "@Sliverkiss, 适配 @s1sunny",
+      "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/midea",
+      "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/midea/midea.js",
+      "icons": [
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png",
+        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png"
+      ]
+    }
+  ]
+}
