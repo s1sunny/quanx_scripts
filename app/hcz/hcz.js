@@ -120,7 +120,31 @@ async function main() {
 
     console.log(`[HCZ] 捕获: bo7=${bo7 ? '✓' : '✗'} sparta=${sparta ? '✓' : '✗'} equip=${equip ? '✓' : '✗'}`);
 
-    // Rewrite模式结束，不执行签到（签到由Cron或手动触发）
+    // 同时有bo7friwl和spartaId → 立即签到
+    if (bo7 && sparta) {
+      console.log(`[HCZ] 凭证新鲜，立即签到...`);
+      const result = await signIn(bo7, sparta, cookie);
+      if (result && result.code === 0) {
+        const d = result.data;
+        const status = d.hadSign === 1 ? "✅ 今日已签到" : "✅ 签到成功";
+        const msg = `${status}｜累计 ${d.days} 天｜积分 ${d.point}`;
+        $prefs.setValueForKey(JSON.stringify({
+          days: d.days, monthTotalDays: d.monthTotalDays,
+          hadSign: d.hadSign, point: d.point, userLevel: d.userLevel
+        }), KEY_DATA);
+        console.log(`[HCZ] ${msg}`);
+        showMessage(msg);
+      } else if (result && result.code === 480) {
+        const msg = "⚠️ 凭证已过期，签到失败";
+        console.log(`[HCZ] ${msg}`);
+        showMessage(msg);
+      } else {
+        const errMsg = result?.msg || result?.info || JSON.stringify(result);
+        console.log(`[HCZ] 签到失败: ${errMsg}`);
+        showMessage(`❌ ${errMsg}`);
+      }
+    }
+
     $done({});
     return;
   }
