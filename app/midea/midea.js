@@ -5,6 +5,7 @@
  */
 
 const $ = new Env("美的会员");
+if (typeof $done !== "undefined") $.done = $done;
 const ckName = "midea_data";
 let notify = '';
 if ($.isNode()) { try { notify = require('./sendNotify'); } catch(e) { notify = null; } }
@@ -137,7 +138,7 @@ async function getCookie() {
         await main();
     }
 })()
-    .catch((e) => $.notifyMsg.push(e.message || e))
+    .catch((e) => { console.log(e.message || e); $.notifyMsg.push(e.message || e); })
     .finally(async () => {
         if ($.barkKey) {
             await BarkNotify($, $.barkKey, $.name, $.notifyMsg.join('\n'));
@@ -167,7 +168,7 @@ async function checkEnv() {
         userCount = userList.length;
     } else {
         console.log("未找到CK");
-        return;
+        return false;
     }
     return console.log(`共找到${userCount}个账号`), true;
 }
