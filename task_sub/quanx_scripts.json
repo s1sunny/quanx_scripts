@@ -17,6 +17,10 @@
     {
       "config": "30 8 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js, tag=合胜百货签到, img-url=https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png, enabled=true",
       "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/hesheng.conf, tag=合胜百货-重定向"
+    },
+    {
+      "config": "30 9 * * * https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/ths/ths.js, tag=同花顺签到, img-url=https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/ths.png, enabled=true",
+      "addons": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/conf/ths.conf, tag=同花顺-Cookie捕获"
     }
   ]
 }

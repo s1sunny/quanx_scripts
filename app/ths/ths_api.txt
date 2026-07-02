@@ -1,0 +1,48 @@
+# 同花顺（10jqka）APP 签到 API 分析
+## 抓包日期：2026-07-02
+
+## 签到服务
+- **域名**: `yyzt.10jqka.com.cn`（金豆签到系统）
+- **认证方式**: Cookie（`v=...` + `hxmPid=...`）
+- **App**: IHexin/12.07.01 (iPhone; iOS 17.5.1)
+
+## 核心接口
+
+### 签到 POST /gbct/external/checkin/v1/sign
+- **请求体**: `{}`（空 JSON）
+- **认证**: Cookie（v + hxmPid）
+- **Response**:
+```json
+{
+  "status_code": 0,
+  "status_msg": "ok",
+  "data": {
+    "period_days": 1,
+    "continuous_days": 1,
+    "continuous_rewards": [{"reward_type":"score","reward_count":1}],
+    "accumulated_rewards": []
+  }
+}
+```
+
+### 今日签到状态 GET /gbct/external/checkin/v1/today_sign
+- **Response**: `{"is_signed_today": false}`
+
+### 签到汇总 GET /gbct/external/checkin/v1/summary
+- **Response**: `{"today":"2026-07-02","continuous_days":1,"period_days":1,"recent_days":[...]}`
+- `status`: 0=未签到, 1=已签到, 2=未来日期
+
+## 用户信息
+- **昵称**: 被大A抄底
+- **userId**: 260165704
+- **个人中心**: `i.10jqka.com.cn/myWealth/api/v1/index`
+- **昵称信息**: `i.10jqka.com.cn/myWealth/api/v1/user/info/nickname`
+
+## Cookie 捕获
+- 关键 Cookie: `v=...`（认证令牌）
+- 用于自动捕获的 URL 模式（script-request-header）：
+  `^https:\/\/yyzt\.10jqka\.com\.cn\/gbct\/external\/checkin\/v1\/(sign|summary|today_sign)`
+- 用户登录后，所有请求都会携带 v=... 和 hxmPid=...
+
+## 固定参数
+- appid=2, platform=iphone（非必须，用于其他接口）
