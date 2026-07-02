@@ -25,7 +25,6 @@
       "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/nfdaily",
       "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/nfdaily/nfdaily.js",
       "icons": [
-        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png",
         "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/nfdaily.png"
       ]
     },
@@ -49,7 +48,6 @@
       "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/gwm",
       "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/gwm/gwm.js",
       "icons": [
-        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/gwm.png",
         "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/gwm.png"
       ]
     },
@@ -73,7 +71,6 @@
       "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/hesheng",
       "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/hesheng/hesheng.js",
       "icons": [
-        "https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png",
         "https://raw.githubusercontent.com/s1sunny/QuantumultX/main/icon/null.png"
       ]
     },
@@ -116,7 +113,6 @@
       "repo": "https://github.com/s1sunny/quanx_scripts/tree/main/app/midea",
       "script": "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/app/midea/midea.js",
       "icons": [
-        "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png",
         "https://raw.githubusercontent.com/s1sunny/quanx_scripts/refs/heads/main/task_sub/icon/midea.png"
       ]
     }
