@@ -81,20 +81,32 @@ function captureAuth(){
     var picked={token:auth,gToken:gToken,userId:prev.userId||"",ua:low["user-agent"]||UA,sourceAppVer:low["sourceappver"]||SOURCEAPPVER,_ts:Date.now()};
     try{var body=JSON.parse($request.body||"{}");if(body.userId)picked.userId=body.userId}catch(_){}
     $.setdata(JSON.stringify(picked),KEY);
-    $.log("[capture] token="+(auth||"").slice(0,10)+" userId="+picked.userId);
+    if(typeof GWM_DEBUG!=="undefined"&&GWM_DEBUG)$.log("[debug] token="+(auth||"").slice(0,10)+" userId="+picked.userId);
     if(auth!==prev.token||gToken!==prev.gToken)
       $.msg($.name,"Token OK","auth: "+(auth||"").slice(0,10)+" uid: "+(picked.userId||"?"));
   }catch(e){$.logErr("[ERROR] "+e)}
 }
 
+function loadUserConfig(){
+  try{
+    var cfgPath=require("path").join(__dirname,"config.json");
+    var cfg=JSON.parse(require("fs").readFileSync(cfgPath,"utf8"));
+    return{token:cfg.token||"",userId:cfg.userId||"",gToken:cfg.gToken||""};
+  }catch(_){return{}}
+}
 function apiPost(path,body){
   return new Promise(function(resolve){
+    // 优先级: 变量(gwm_data/环境变量) > config.json(仅fallback)
     var stored=JSON.parse($.getdata(KEY)||"{}");
     if(typeof process!=="undefined"&&process.env){
       if(process.env.GWM_TOKEN&&!stored.token)stored.token=process.env.GWM_TOKEN;
       if(process.env.GWM_USERID&&!stored.userId)stored.userId=process.env.GWM_USERID;
     }
-    if(!stored.token||!stored.userId){$.log("[ERROR] no token/userId");return resolve(null)}
+    var cfg=loadUserConfig();
+    if(!stored.token&&cfg.token)stored.token=cfg.token;
+    if(!stored.userId&&cfg.userId)stored.userId=cfg.userId;
+    if(!stored.gToken&&cfg.gToken)stored.gToken=cfg.gToken;
+    if(!stored.token||!stored.userId){$.log("[ERROR] 无 token/userId");return resolve(null)}
     $.post({url:BASE+path,headers:buildHeaders(stored),body:JSON.stringify(body||{userId:stored.userId})},function(err,resp,body){
       if(err){$.log("[ERROR] "+path+": "+$.toStr(err));return resolve(null)}
       try{resolve(JSON.parse(body))}catch(_){$.log("[ERROR] JSON: "+(body||"").slice(0,200));resolve(null)}
@@ -104,7 +116,13 @@ function apiPost(path,body){
 function apiGet(path){
   return new Promise(function(resolve){
     var stored=JSON.parse($.getdata(KEY)||"{}");
-    if(!stored.token){$.log("[ERROR] no token");return resolve(null)}
+    if(!stored.token){
+      var cfg=loadUserConfig();
+      if(cfg.token)stored.token=cfg.token;
+      if(cfg.userId)stored.userId=cfg.userId;
+      if(cfg.gToken)stored.gToken=cfg.gToken;
+    }
+    if(!stored.token){$.log("[ERROR] 无 token");return resolve(null)}
     $.get({url:BASE+path,headers:buildHeaders(stored)},function(err,resp,body){
       if(err){$.log("[ERROR] "+path+": "+$.toStr(err));return resolve(null)}
       try{resolve(JSON.parse(body))}catch(_){$.log("[ERROR] JSON: "+(body||"").slice(0,200));resolve(null)}
@@ -113,43 +131,72 @@ function apiGet(path){
 }
 
 async function dailySign(){
-  $.log("\n--- daily sign ---");
+  var DEBUG=typeof GWM_DEBUG!=="undefined"&&GWM_DEBUG;
+  var lastSignRes=null;
   var stored=JSON.parse($.getdata(KEY)||"{}");
-  if(!stored.userId){$.messages.push("no userId");return}
+  var cfg=loadUserConfig();
+  if(!stored.userId&&cfg.userId)stored.userId=cfg.userId;
+  if(!stored.token&&cfg.token)stored.token=cfg.token;
+  if(!stored.gToken&&cfg.gToken)stored.gToken=cfg.gToken;
+  if(!stored.userId){$.messages.push("缺少 userId，请重新抓取");return}
 
+  // 1. 查询签到状态
   var info=await apiPost("/community-u/v1/app/uc/sign/info");
-  if(!info||info.code!==0){$.messages.push("query failed: "+((info&&info.message)||""));return}
-  var data=info.data||{};
-  var signed=data.todayIsSuccessSign===1;
-  var continuous=data.continuousCount||0;
-  $.log("[status] signed="+signed+" days="+continuous+" box="+data.boxIsOpen);
+  if(!info||info.code!==0){$.messages.push("查询失败: "+((info&&info.message)||"网络错误"));return}
+  var d=info.data||{};
+  var signed=d.todayIsSuccessSign===1;
+  var days=d.continuousCount||0;
+  var allDays=d.allContinuousCount||0;
+  if(DEBUG){$.log("[debug] sign/info data:");for(var k in d){$.log("  "+k+": "+d[k])}}
 
   if(signed){
-    $.messages.push("already signed today ("+continuous+" days)");
+    $.messages.push("✨ 今日已签到｜盲盒进度 "+days+"/7 天｜已连续签到 "+allDays+" 天");
   }else{
-    var res=await apiPost("/community-u/v1/user/sign/sureNew");
+    // 2. 执行签到
+    var res=await apiPost("/community-u/v1/user/sign/sureNew");lastSignRes=res;
     if(res&&res.code===0){
-      var nc=(res.data&&res.data.continuousCount)||continuous+1;
-      $.messages.push("signed! "+nc+" days");
-    }else{$.messages.push("sign failed: "+((res&&res.message)||""));return}
+      if(DEBUG)$.log("[debug] sureNew:",$.toStr(res.data));
+    }else{
+      $.messages.push("❌ 签到失败: "+((res&&res.message)||"请稍后重试"));
+      return;
+    }
   }
 
+  // 3. 盲盒（连续7天可抽）
   await new Promise(function(r){setTimeout(r,500)});
   var info2=await apiPost("/community-u/v1/app/uc/sign/info");
   var d2=(info2&&info2.data)||{};
   var c2=d2.continuousCount||0;
-  $.log("[box] days="+c2+" boxOpen="+d2.boxIsOpen);
+  var a2=d2.allContinuousCount||0;
 
-  if(c2>=7&&d2.boxIsOpen===2){
+  // 更新日志（签到后）
+  if(!signed){
+    $.messages.pop(); // 移除之前可能的签到成功消息
+    $.messages.push("✅ 签到成功｜盲盒进度 "+c2+"/7 天｜已连续签到 "+a2+" 天");
+  }
+
+  if(c2>=7){
     var prize=await apiGet("/community-u/v1/app/user/sign/prize-record/extractPrize/");
     if(prize&&prize.code===0&&prize.data){
-      $.messages.push("prize: "+prize.data.tipTitle+" "+prize.data.prizeName);
-    }else{$.messages.push("box failed: "+((prize&&prize.message)||""))}
-  }else if(c2>=7&&d2.boxIsOpen===1){$.messages.push("box already opened")}
-  else{var rem=7-c2;if(rem>0)$.messages.push(c2+"/7 days")}
+      $.messages.push("🎁 "+prize.data.tipTitle+": "+prize.data.prizeName);
+    }else if(prize){
+      if(DEBUG)$.log("[debug] 盲盒:",prize.message);
+    }
+  }else{
+    var remain=7-c2;
+    $.messages.push("📦 连签 "+c2+" 天，再签 "+remain+" 天开盲盒");
+  }
 
+  // 4. 积分
   var score=await apiGet("/api-u/v1/user/score/get");
-  if(score&&score.code===0&&score.data!=null)$.messages.push("score: "+score.data);
+  if(score&&score.code===0&&score.data){
+    var sd=score.data;
+    var pts=sd.totalPoint||0;
+    var exp=sd.pointInvalidingValue||0;
+    var expDate=sd.pointInvalidDate||"";
+    $.messages.push("💰 积分: "+pts+"（"+exp+" 将于 "+expDate+" 过期）");
+    if(DEBUG)$.log("[debug] remindPoint:",sd.remindPoint);
+  }
 }
 
 if(typeof $request!=="undefined"){captureAuth();$.done()}
